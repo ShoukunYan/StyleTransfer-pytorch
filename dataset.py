@@ -98,7 +98,7 @@ def get_loaders(root, batch_size, normalization=False, augmentation=True):
     loader = data.DataLoader(dataset, batch_size=batch_size, shuffle=True)
     return loader
 
-def read_picture(image_path, normalization=False):
+def read_picture(image_path, normalization=False, resize=True):
     
     #norm_mean = [0.485,0.456,0.406]
     #norm_std = [0.229,0.224,0.225]
@@ -108,7 +108,11 @@ def read_picture(image_path, normalization=False):
 
     image_size = 256
 
-    train_transform = [CenterCropLongEdge(), transforms.Resize(image_size)]
+    if resize:
+        train_transform = [CenterCropLongEdge(), transforms.Resize(image_size)]
+    else:
+        train_transform = []
+
     if normalization:
         train_transform = transforms.Compose(train_transform + [
                     transforms.ToTensor(),

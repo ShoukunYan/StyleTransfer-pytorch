@@ -97,13 +97,14 @@ class decoder(nn.Module):
         x = self.deconv1(x)
         x = self.deconv2(x)
         x = self.final(x)
+        x_size = x.size()
 
         
-        img = (x[0, :, 10:266, 10:266] + 1) /2
+        img = (x[0,:,10:x_size[2]-10,10:x_size[3]-10] + 1) /2
         img = transforms.ToPILImage()(img.detach().cpu())
         img.save('sample_transfer.jpg')
 
-        return x[:,:,10:266,10:266]
+        return x[:,:,10:x_size[2]-10,10:x_size[3]-10]
 
 
 class Style_AutoEncoder(nn.Module):
